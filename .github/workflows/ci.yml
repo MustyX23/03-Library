@@ -27,21 +27,7 @@ jobs:
       run: npx playwright install
 
     - name: Start server
-      run: cd server && node server.js > /dev/null 2>&1 &
-      shell: bash
-
-    - name: Wait for server to be ready
-      run: |
-        for i in {1..30}; do
-          if curl -f http://localhost:3000 > /dev/null 2>&1; then
-            echo "Server is ready"
-            exit 0
-          fi
-          echo "Waiting for server... ($i/30)"
-          sleep 1
-        done
-        echo "Server failed to start"
-        exit 1
+      run: cd server && node server.js
       shell: bash
 
     - name: Run tests
