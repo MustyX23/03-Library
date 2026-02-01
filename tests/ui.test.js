@@ -78,6 +78,7 @@ test('Add book with correct data', async ({ page }) => {
   await page.click('a[href="/create"]');
 
   await page.waitForSelector('#create-form');
+  await page.waitForLoadState('networkidle');
 
   await page.fill('#title', 'Test Book');
   await page.fill('#description', 'This is a test book description');
@@ -105,6 +106,7 @@ test('Add book with empty title field', async ({ page }) => {
   await page.click('a[href="/create"]');
 
   await page.waitForSelector('#create-form');
+  await page.waitForLoadState('networkidle');
 
   await page.fill('#description', 'This is a test book description');
   await page.fill('#image', 'https://example.com/book-image.jpg');
