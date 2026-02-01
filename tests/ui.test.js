@@ -75,14 +75,16 @@ test('Add book with correct data', async ({ page }) => {
     page.waitForURL('http://localhost:3000/catalog')
   ]);
 
-  await page.click('a[href="/create"]');
+  await Promise.all([
+    page.click('a[href="/create"]'),
+    page.waitForNavigation()
+  ]);
 
-  await page.waitForSelector('#create-form');
-  await page.waitForLoadState('networkidle');
+  await page.locator('#create-form').waitFor({ state: 'visible', timeout: 15000 });
 
-  await page.fill('#title', 'Test Book');
-  await page.fill('#description', 'This is a test book description');
-  await page.fill('#image', 'https://example.com/book-image.jpg');
+  await page.locator('#title').fill('Test Book');
+  await page.locator('#description').fill('This is a test book description');
+  await page.locator('#image').fill('https://example.com/book-image.jpg');
   await page.selectOption('#type', 'Fiction');
 
   await page.click('#create-form input[type="submit"]');
@@ -103,13 +105,15 @@ test('Add book with empty title field', async ({ page }) => {
     page.waitForURL('http://localhost:3000/catalog')
   ]);
 
-  await page.click('a[href="/create"]');
+  await Promise.all([
+    page.click('a[href="/create"]'),
+    page.waitForNavigation()
+  ]);
 
-  await page.waitForSelector('#create-form');
-  await page.waitForLoadState('networkidle');
+  await page.locator('#create-form').waitFor({ state: 'visible', timeout: 15000 });
 
-  await page.fill('#description', 'This is a test book description');
-  await page.fill('#image', 'https://example.com/book-image.jpg');
+  await page.locator('#description').fill('This is a test book description');
+  await page.locator('#image').fill('https://example.com/book-image.jpg');
   await page.selectOption('#type', 'Fiction');
 
   await page.click('#create-form input[type="submit"]');
