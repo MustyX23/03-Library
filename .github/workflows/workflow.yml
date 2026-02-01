@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  build_setup_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,3 +43,23 @@ jobs:
         name: Test Results
         path: test-results/
         retention-days: 7
+  deploy_backend:
+    needs: build_setup_and_test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Render
+      uses: JorgeLNJunior/render-deploy@v1.4.7
+      with:
+        service_id: ${{ secrets.RENDER_BACKEND_ID }}
+        api_key: ${{ secrets.RENDER_API_KEY }}
+        wait_deploy: true
+  deploy_frontend:
+    needs: build_setup_and_test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Render
+      uses: JorgeLNJunior/render-deploy@v1.4.7
+      with:
+        service_id: ${{ secrets.RENDER_FRONTEND_ID }}
+        api_key: ${{ secrets.RENDER_API_KEY }}
+        wait_deploy: true
