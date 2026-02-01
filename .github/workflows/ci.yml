@@ -27,7 +27,7 @@ jobs:
       run: npx playwright install
 
     - name: Start server
-      run: cd server && node server.js
+      run: cd server && node server.js &
       shell: bash
 
     - name: Run tests
